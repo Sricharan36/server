@@ -42,8 +42,8 @@ public class ReviewServiceImp implements ReviewService{
             return new ResponseEntity<>("Already Reviewed",HttpStatus.EXPECTATION_FAILED);
         }
         review.setUser(user);
-        Review reviewDB = reviewRepository.save(review);
-        return new ResponseEntity<>(convertToDto(reviewDB), HttpStatus.OK);
+        reviewRepository.save(review);
+        return new ResponseEntity<>("Reviewed Successfully", HttpStatus.OK);
     }
 
     private boolean reviewed(String albumId, User user) {
