@@ -35,10 +35,9 @@ public class JWTService {
                 .setClaims(claims)
                 .setSubject(username)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 991016498))
+                .setExpiration(new Date(System.currentTimeMillis() + 12 * 24 * 60 * 60 * 1000))
                 .signWith(getSignKey(), SignatureAlgorithm.HS256).compact();
     }
-
     private String createToken(Map<String, Object> claims, String username) {
         return Jwts.builder()
                 .setClaims(claims)

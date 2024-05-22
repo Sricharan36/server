@@ -1,9 +1,6 @@
 package com.musicboxd.server.controller;
 
-import com.musicboxd.server.dto.MailRequest;
-import com.musicboxd.server.dto.SignUpRequest;
-import com.musicboxd.server.dto.UpdateUserRequest;
-import com.musicboxd.server.dto.UserDTO;
+import com.musicboxd.server.dto.*;
 import com.musicboxd.server.model.AuthenticationRequest;
 import com.musicboxd.server.model.AuthenticationResponse;
 import com.musicboxd.server.service.auth.AuthService;
@@ -21,8 +18,6 @@ public class AuthController {
     AuthService authService;
     @Autowired
     AuthenticationManager authenticationManager;
-    @Autowired
-    MailService mailService;
 
     @PostMapping("user/signup")
     public ResponseEntity<?> signupUser(@RequestBody SignUpRequest signUpRequest){
@@ -36,6 +31,11 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<AuthenticationResponse> login(@RequestBody AuthenticationRequest authenticationRequest){
         return ResponseEntity.ok(authService.signin(authenticationRequest));
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<AuthenticationResponse> refreshToken(@RequestBody RefreshTokenRequest refreshTokenRequest){
+        return ResponseEntity.ok(authService.refreshToken(refreshTokenRequest));
     }
 
     @PostMapping("admin/signup")

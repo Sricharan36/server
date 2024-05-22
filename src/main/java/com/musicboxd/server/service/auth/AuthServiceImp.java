@@ -1,5 +1,6 @@
 package com.musicboxd.server.service.auth;
 
+import com.musicboxd.server.dto.RefreshTokenRequest;
 import com.musicboxd.server.dto.SignUpRequest;
 import com.musicboxd.server.dto.UpdateUserRequest;
 import com.musicboxd.server.dto.UserDTO;
@@ -77,6 +78,27 @@ public class AuthServiceImp implements AuthService {
     }
 
     @Override
+    public AuthenticationResponse refreshToken(RefreshTokenRequest refreshTokenRequest){
+        String username = jwtService.extractUsername(refreshTokenRequest.getToken());
+        User user = userRepo.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User Not Found"));
+        if (jwtService.isTokenValid(refreshTokenRequest.getToken(), user)){
+            var jwt = jwtService.generateToken(user);
+
+            AuthenticationResponse authenticationResponse = new AuthenticationResponse();
+            authenticationResponse.setJwt(jwt);
+            authenticationResponse.setRefreshJwt(refreshTokenRequest.getToken());
+            authenticationResponse.setUserId(user.getId());
+            authenticationResponse.setUserRole(user.getUserRole());
+            authenticationResponse.setUsername(user.getUsername());
+
+            return authenticationResponse;
+
+        }
+        return null;
+    }
+
+    @Override
     public UserDTO updateUser(UpdateUserRequest updateUserRequest) {
         User user = retriveLoggedInUser();
         if(user==null)
@@ -86,7 +108,6 @@ public class AuthServiceImp implements AuthService {
         user.setProfilePic(updateUserRequest.getProfilePic() != null ? updateUserRequest.getProfilePic() : user.getProfilePic());
         user.setHeaderPic(updateUserRequest.getHeaderPic() != null ? updateUserRequest.getHeaderPic() : user.getHeaderPic());
 
-//        user.setPassword(new BCryptPasswordEncoder().encode(updateUserRequest.getPassword()));
         userRepo.save(user);
 
         return convertToDto(user);
