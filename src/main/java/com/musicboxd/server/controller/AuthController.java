@@ -4,7 +4,6 @@ import com.musicboxd.server.dto.*;
 import com.musicboxd.server.model.AuthenticationRequest;
 import com.musicboxd.server.model.AuthenticationResponse;
 import com.musicboxd.server.service.auth.AuthService;
-import com.musicboxd.server.service.mail.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,10 +21,10 @@ public class AuthController {
     @PostMapping("user/signup")
     public ResponseEntity<?> signupUser(@RequestBody SignUpRequest signUpRequest){
         UserDTO userDTO = authService.createUser(signUpRequest);
-        if(userDTO==null){
-            return new ResponseEntity<>("User Not Created ", HttpStatus.BAD_REQUEST);
+        if(userDTO == null){
+            return new ResponseEntity<>("User Not Created", HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(userDTO,HttpStatus.CREATED);
+        return new ResponseEntity<>(userDTO, HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
@@ -34,26 +33,21 @@ public class AuthController {
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<AuthenticationResponse> refreshToken(@RequestBody RefreshTokenRequest refreshTokenRequest){
-        return ResponseEntity.ok(authService.refreshToken(refreshTokenRequest));
+    public ResponseEntity<?> refreshToken(@RequestBody RefreshTokenRequest refreshTokenRequest){
+        AuthenticationResponse response = authService.refreshToken(refreshTokenRequest);
+        if (response == null) {
+            return new ResponseEntity<>("Invalid Refresh Token", HttpStatus.UNAUTHORIZED);
+        }
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("admin/signup")
     public ResponseEntity<?> signupAdmin(@RequestBody SignUpRequest signUpRequest){
         UserDTO adminDTO = authService.createAdmin(signUpRequest);
-        if(adminDTO==null){
-            return new ResponseEntity<>("Admin Not Created ", HttpStatus.BAD_REQUEST);
+        if(adminDTO == null){
+            return new ResponseEntity<>("Admin Not Created", HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(adminDTO,HttpStatus.CREATED);
+        return new ResponseEntity<>(adminDTO, HttpStatus.CREATED);
     }
 
-    @PutMapping("/update")
-    public ResponseEntity<?> updateUser(@RequestBody UpdateUserRequest updateUserRequest) {
-        UserDTO updatedUser = authService.updateUser(updateUserRequest);
-        if (updatedUser == null) {
-            return new ResponseEntity<>("User Not Found", HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(updatedUser, HttpStatus.OK);
-    }
 }
-
