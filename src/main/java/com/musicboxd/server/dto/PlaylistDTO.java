@@ -9,6 +9,6 @@ public class PlaylistDTO {
     private Long id;
     private String name;
     private String description;
-    private boolean isPublic;
+    private boolean publicAccess;
     private Set<String> uris;
 }

@@ -21,7 +21,7 @@ public class Playlist {
     private String description;
 
     @Column(nullable = false)
-    private boolean isPublic;
+    private boolean publicAccess;
 
     @ElementCollection
     private Set<String> uris = new HashSet<>();

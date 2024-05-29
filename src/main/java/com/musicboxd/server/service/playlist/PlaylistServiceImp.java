@@ -31,8 +31,9 @@ public class PlaylistServiceImp implements PlaylistService{
         Playlist playlist = new Playlist();
         playlist.setName(createPlaylistRequest.getName());
         playlist.setDescription(createPlaylistRequest.getDescription());
-        playlist.setPublic(createPlaylistRequest.isPublic());
+        playlist.setPublicAccess(createPlaylistRequest.isPublicAccess());
         playlist.setUser(user);
+        playlist.setUris(createPlaylistRequest.getUris());
         Playlist savedPlaylist = playlistRepository.save(playlist);
         return mapToDTO(savedPlaylist);
     }
@@ -63,7 +64,7 @@ public class PlaylistServiceImp implements PlaylistService{
 
     @Override
     public Set<PlaylistDTO> getPublicPlaylists() {
-        Set<Playlist> playlists = playlistRepository.findByIsPublic(true);
+        Set<Playlist> playlists = playlistRepository.findByPublicAccess(true);
         return playlists.stream().map(this::mapToDTO).collect(Collectors.toSet());
     }
 
@@ -76,7 +77,7 @@ public class PlaylistServiceImp implements PlaylistService{
 
     @Override
     public Set<PlaylistDTO> getPrivatePlaylists() {
-        Set<Playlist> playlists = playlistRepository.findByIsPublic(false);
+        Set<Playlist> playlists = playlistRepository.findByPublicAccess(false);
         return playlists.stream().map(this::mapToDTO).collect(Collectors.toSet());
     }
 
@@ -85,7 +86,7 @@ public class PlaylistServiceImp implements PlaylistService{
         playlistDTO.setId(playlist.getId());
         playlistDTO.setName(playlist.getName());
         playlistDTO.setDescription(playlist.getDescription());
-        playlistDTO.setPublic(playlist.isPublic());
+        playlistDTO.setPublicAccess(playlist.isPublicAccess());
         playlistDTO.setUris(playlist.getUris());
         return playlistDTO;
     }

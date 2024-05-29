@@ -16,7 +16,7 @@ public class PlaylistController {
     @Autowired
     private PlaylistService playlistService;
 
-    @PostMapping("/create")
+    @PostMapping("/createWithSongs")
     public ResponseEntity<PlaylistDTO> createPlaylist(@RequestBody CreatePlaylistRequest createPlaylistRequest){
         PlaylistDTO playlistDTO = playlistService.createPlaylist(createPlaylistRequest);
         return ResponseEntity.ok(playlistDTO);

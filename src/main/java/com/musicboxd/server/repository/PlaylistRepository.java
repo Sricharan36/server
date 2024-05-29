@@ -10,6 +10,6 @@ import java.util.Set;
 @Repository
 public interface PlaylistRepository extends JpaRepository<Playlist, Long> {
     Set<Playlist> findByUserId(Long userId);
-    Set<Playlist> findByIsPublic(boolean isPublic);
+    Set<Playlist> findByPublicAccess(boolean publicAccess);
 }
 
