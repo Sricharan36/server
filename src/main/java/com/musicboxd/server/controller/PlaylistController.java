@@ -24,7 +24,7 @@ public class PlaylistController {
 
     @PutMapping("/addUri/{playlistId}")
     public ResponseEntity<PlaylistDTO> addUriToPlaylist(@PathVariable Long playlistId, @RequestBody AddUriRequest addUriRequest) {
-        PlaylistDTO updatedPlaylist = playlistService.addUriToPlaylist(playlistId, addUriRequest.getUri());
+        PlaylistDTO updatedPlaylist = playlistService.addUriToPlaylist(playlistId, addUriRequest.getUris());
         return ResponseEntity.ok(updatedPlaylist);
     }
 

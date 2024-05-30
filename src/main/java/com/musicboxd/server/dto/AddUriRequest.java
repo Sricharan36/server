@@ -2,7 +2,9 @@ package com.musicboxd.server.dto;
 
 import lombok.Data;
 
+import java.util.Set;
+
 @Data
 public class AddUriRequest {
-    private String uri;
+    private Set<String> uris;
 }

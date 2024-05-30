@@ -8,7 +8,7 @@ import java.util.Set;
 public interface PlaylistService {
     PlaylistDTO createPlaylist(CreatePlaylistRequest createPlaylistRequest);
 
-    PlaylistDTO addUriToPlaylist(Long playlistId, String uri);
+    PlaylistDTO addUriToPlaylist(Long playlistId, Set<String> uri);
 
     Set<PlaylistDTO> getUserPlaylists();
 

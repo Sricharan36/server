@@ -40,10 +40,10 @@ public class PlaylistServiceImp implements PlaylistService{
 
     @Transactional
     @Override
-    public PlaylistDTO addUriToPlaylist(Long playlistId, String uri) {
+    public PlaylistDTO addUriToPlaylist(Long playlistId, Set<String> uris) {
         Playlist playlist = playlistRepository.findById(playlistId)
                 .orElseThrow(() -> new UsernameNotFoundException("Playlist not found"));
-        playlist.getUris().add(uri);
+        playlist.getUris().addAll(uris);
         Playlist updatedPlaylist = playlistRepository.save(playlist);
         return mapToDTO(updatedPlaylist);
     }
