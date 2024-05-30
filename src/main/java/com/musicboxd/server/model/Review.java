@@ -13,7 +13,7 @@ public class Review {
     private String reviewTitle;
 
     @Column(nullable = false)
-    private String albumId;
+    private String uris;
 
     @ManyToOne
     @JoinColumn(name = "user_id",nullable = false)
